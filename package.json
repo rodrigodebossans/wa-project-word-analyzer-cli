@@ -1,0 +1,25 @@
+{
+  "name": "wa-project-word-analyzer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/src/main.js",
+    "start:dev": "tsx watch src/main.ts",
+    "lint": "eslint 'src/**'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/node": "^22.7.9",
+    "eslint": "^9.13.0",
+    "globals": "^15.11.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.11.0"
+  }
+}
