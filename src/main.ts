@@ -1,3 +1,5 @@
-import { WaProjectWordAnalyzerCLI } from './cli';
+#!/usr/bin/env node
 
-new WaProjectWordAnalyzerCLI();
+import { WapWordAnalyzerCLI } from './cli';
+
+new WapWordAnalyzerCLI();
