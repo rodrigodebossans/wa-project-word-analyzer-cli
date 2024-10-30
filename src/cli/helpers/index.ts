@@ -31,3 +31,6 @@ export const getAnalyzeTableMetrics = (parameterLoadingTime: number, phraseVerif
 
   return table(metrics, config);
 };
+
+export const getNoMatchingWordsMessage = (depth: number) =>
+  `In the phrase there are no children of the ${depth} level and neither does the ${depth} level have the specified terms.`;
