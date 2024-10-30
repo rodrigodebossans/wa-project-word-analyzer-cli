@@ -6,12 +6,12 @@
     "wap": "dist/src/main.js"
   },
   "scripts": {
-    "start": "node dist/src/main.js",
+    "start": "node --experimental-sqlite --no-warnings dist/src/main.js",
     "start:dev": "tsx watch src/main.ts",
     "build": "tsc",
     "lint": "eslint 'src/**'",
-    "test": "jest",
-    "test:cov": "jest --coverage"
+    "test": "node --experimental-sqlite --no-warnings node_modules/.bin/jest --runInBand",
+    "test:cov": "npm run test -- --coverage"
   },
   "keywords": [],
   "author": "",
@@ -31,6 +31,8 @@
   },
   "dependencies": {
     "commander": "^12.1.0",
+    "sql-bricks": "^3.0.1",
+    "sqlite": "^5.1.1",
     "table": "^6.8.2",
     "tree-model": "^1.0.7",
     "tslib": "^2.8.0"
