@@ -1,6 +1,6 @@
 import TreeModel from 'tree-model';
 import { performance } from 'perf_hooks';
-import { Command } from 'commander';
+import { Command, InvalidArgumentError } from 'commander';
 
 import { WapDepthParser } from '../parsers/depth-parser';
 import { WapAnalyzeCommandOptions, WapNode } from '../models';
@@ -9,6 +9,7 @@ import {
   findWordByNodeNameWithoutAccentsPredicate,
   getAnalyzeOutput,
   getAnalyzeTableMetrics,
+  getNoMatchingWordsMessage,
 } from '../helpers';
 import classificationTreeJson from './../../../dicts/classification-tree.json';
 import { WapMetricLabels } from '../enums';
@@ -51,7 +52,9 @@ export class WapAnalyzeCommand extends Command {
         );
         performance.mark(this.phraseVerificationTimeStartLabel);
       })
-      .action(this.execute)
+      .action((phrase, options) => {
+        this.execute(phrase, options);
+      })
       .hook('postAction', () => {
         performance.mark(this.phraseVerificationEndLabel);
         performance.measure(
@@ -62,7 +65,9 @@ export class WapAnalyzeCommand extends Command {
       });
   }
 
-  execute(phrase: string, options: WapAnalyzeCommandOptions): void {
+  execute(phrase: string, options: WapAnalyzeCommandOptions): string {
+    if (!phrase) throw new InvalidArgumentError('Phrase is required');
+
     const treeModel = new TreeModel();
     const tree = treeModel.parse<WapNode>(classificationTreeJson);
 
@@ -85,11 +90,15 @@ export class WapAnalyzeCommand extends Command {
       totalNodesProcessed++;
     }
 
-    if (totalNodesProcessed === 0)
-      console.log(
-        `In the phrase there are no children of the ${options.depth} level and neither does the ${options.depth} level have the specified terms.`,
-      );
+    if (totalNodesProcessed === 0) {
+      const noMatchingWordsMessage = getNoMatchingWordsMessage(options.depth);
+      console.log(noMatchingWordsMessage);
+      return noMatchingWordsMessage;
+    }
 
-    console.log(getAnalyzeOutput(wordCountOutputMap));
+    const output = getAnalyzeOutput(wordCountOutputMap);
+    console.log(output);
+
+    return output;
   }
 }
