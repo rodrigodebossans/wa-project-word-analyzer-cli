@@ -14,13 +14,45 @@ import {
 import classificationTreeJson from './../../../dicts/classification-tree.json';
 import { WapMetricLabels } from '../enums';
 
+/**
+ * Command class for analyzing a given phrase and displaying a table with the word count at a specified depth level.
+ *
+ * @class
+ * @extends {Command}
+ */
 export class WapAnalyzeCommand extends Command {
+  /**
+   * Label for the start of parameter loading time measurement.
+   * @private
+   * @type {string}
+   */
   private parameterLoadingTimeStartLabel = `${WapMetricLabels.PARAMETER_LOADING_TIME}-start`;
+
+  /**
+   * Label for the end of parameter loading time measurement.
+   * @private
+   * @type {string}
+   */
   private parameterLoadingTimeEndLabel = `${WapMetricLabels.PARAMETER_LOADING_TIME}-end`;
 
+  /**
+   * Label for the start of phrase verification time measurement.
+   * @private
+   * @type {string}
+   */
   private phraseVerificationTimeStartLabel = `${WapMetricLabels.PHRASE_VERIFICATION_TIME}-start`;
+
+  /**
+   * Label for the end of phrase verification time measurement.
+   * @private
+   * @type {string}
+   */
   private phraseVerificationEndLabel = `${WapMetricLabels.PHRASE_VERIFICATION_TIME}-end`;
 
+  /**
+   * Constructs a new WapAnalyzeCommand instance.
+   * Sets up performance observers and command options.
+   */
   constructor() {
     super('analyze');
 
@@ -65,6 +97,14 @@ export class WapAnalyzeCommand extends Command {
       });
   }
 
+  /**
+   * Executes the analyze command.
+   *
+   * @param {string} phrase - The phrase to be analyzed.
+   * @param {WapAnalyzeCommandOptions} options - The options for the analyze command.
+   * @returns {string} - The output of the analysis.
+   * @throws {InvalidArgumentError} - If the phrase is not provided.
+   */
   execute(phrase: string, options: WapAnalyzeCommandOptions): string {
     if (!phrase) throw new InvalidArgumentError('Phrase is required');
 
